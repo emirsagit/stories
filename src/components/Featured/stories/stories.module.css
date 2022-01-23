@@ -1,0 +1,41 @@
+.stories {
+    margin: 0 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.story {
+    border: 1px solid var(--main-bg-color);
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color: var(--main-bg-color);
+}
+
+.authors {
+    margin: 0 5%;
+}
+
+.title {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 1.4rem;
+}
+
+.author {
+    opacity: .9;
+    text-align: right;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (min-width: 830px) {
+    .stories {
+        max-width: 550px;
+    }
+}

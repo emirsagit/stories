@@ -1,0 +1,43 @@
+.form {
+    background-color: var(--text-white);
+    max-width: 400px;
+    padding: 1em;
+    margin: 3em auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.message {
+    color: var(--text-dark);
+    opacity: .8;
+}
+
+.span {
+    margin-left: 1em;
+}
+
+.googlebtn {
+    color: var(--text-dark);
+    opacity: .7;
+    display: block;
+    margin: 1em 0;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+
+.googlebtn:hover {
+    box-shadow: rgba(0, 0, 0, 0.50) 0px 3px 8px;
+}
+
+.input {
+    width: 80%;
+    padding: 5px;
+    border-radius: 5px;
+}

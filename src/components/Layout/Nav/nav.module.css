@@ -1,0 +1,78 @@
+.flex {
+    display: flex;
+    letter-spacing: 1px;
+    justify-content: space-between;
+    width: 90%;
+    margin: 10px auto;
+    align-items: center;
+    color: var(--text-white);
+}
+
+.list {
+    color: var(--text-white);
+    background-color: var(--second-bg-color);
+    padding: .5em;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+}
+
+.link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.span {
+    display: block;
+}
+
+.verify {
+    background-color: var(--text-white);
+    width: 100%;
+    margin: 0;
+    font-size: 14px;
+    padding: 5px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.accountBtn {
+    background-color: white;
+    padding: 10px;
+    border-radius: 100px;
+    border: none;
+    color: var(--text-dark);
+    font-size: 18px;
+}
+
+.profilePhoto {
+    border-radius: 100px;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+@media only screen and (min-width: 830px) {
+    .icon {
+        display: none;
+    }
+
+    .list {
+        position: relative;
+        background-color: transparent;
+        gap: 1.5em;
+    }
+}

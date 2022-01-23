@@ -1,0 +1,38 @@
+.container {
+    width: 90%;
+    margin: 3em auto;
+    color: var(--text-white);
+}
+
+.title {
+    width: 100%;
+}
+
+.h1 {
+    margin: 0 auto;
+    max-width: 650px;
+}
+
+.p {
+    margin: 0 auto;
+    font-size: 1.4rem;
+    margin-top: .5em;
+    max-width: 650px;
+}
+
+.image {
+    display: none;
+}
+
+@media only screen and (min-width: 830px) {
+    .container {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image {
+        display: block;
+    }
+}

@@ -1,0 +1,63 @@
+.container {
+    position: relative;
+}
+
+.accountBtn {
+    background-color: white;
+    padding: 10px;
+    border: none;
+    color: var(--text-dark);
+    font-size: 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.profilePhoto {
+    border-radius: 100px;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.displayNone {
+    display: none;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-right: 4px;
+}
+
+.profileLinks {
+    background-color: var(--text-white);
+    color: var(--text-dark);
+    padding: 5px;
+    position: absolute;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 50px;
+}
+
+.link {
+    color: var(--text-dark);
+    display: block;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--text-dark);
+}
+
+.link:hover {
+    background-color: var(--main-text-color);
+}
+
+.profileLinks>.link:last-child {
+    border: none;
+}

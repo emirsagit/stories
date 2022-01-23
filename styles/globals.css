@@ -1,11 +1,87 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;900&display=swap');
+
+:root {
+  --main-bg-color: #222831;
+  --second-bg-color: #2d4059;
+  --main-text-color: #eeeeee;
+  --second-text-color: #ff5722;
+  --text-white: #fff;
+  --text-dark: #000;
+  --max-width: 1000px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Rubik', sans-serif;
+}
 
 body {
-  @apply min-h-screen bg-gray-900 text-gray-50;
+  background-color: var(--main-bg-color);
+  margin: 0;
+  padding: 0;
 }
 
-li {
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-white);
+  margin: 0;
+}
+
+/** typography */
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0;
+}
+/** end typography */
+
+.g--btn {
+  background-color: var(--second-text-color);
+  color: var(--text-white);
+  padding: 7px 20px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: rgba(255, 87, 34, 0.25) 0px 13px 27px -5px, rgba(255, 87, 34, 0.3) 0px 8px 16px -8px;
+  letter-spacing: 1px;
+  border: none;
   display: block;
 }
+
+.g--text-center {
+  text-align: center;
+}
+
+.g--link {
+  color: var(--second-text-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+g--link:hover {
+  opacity: .9;
+}
+
+.g--mt {
+  margin-top: .5em;
+}
+
+p {
+  line-height: 1.6;
+}
+
+
+

@@ -1,21 +1,48 @@
 import Link from "next/link";
 import { Logo } from "src/components";
+import NavLinks from "./local/NavLinks";
+import ProfileLink from "./local/Profile-link";
+import styles from "./nav.module.css";
+import { getAuth } from "firebase/auth";
+import { useAuthState, useSendEmailVerification } from "react-firebase-hooks/auth";
 
 export default function Nav() {
+  const [sendEmailVerification, sending, err] = useSendEmailVerification(getAuth());
+  const [user, loading, error] = useAuthState(getAuth());
+  let emailVerification = true;
+  if (user?.emailVerified == false) {
+    emailVerification = false;
+  }
+
+  async function sendEmail() {
+    console.log("here");
+    await sendEmailVerification();
+    alert("Doğrulama Maili Gönderildi.");
+  }
+
   return (
-    <header>
-      <nav className="flex flex-row justify-between container">
-        <Logo />
-        <ul className="fixed bottom-0 right-0 left-0 flex justify-between gap-2 py-1 px-2 bg-white w-full text-gray-900">
-          <li>Anasayfa</li>
-          <li>Hikayeler</li>
-          <li>Oluştur</li>
-          <li>Hakkımızda</li>
-        </ul>
-        <Link href="/">
-          <a>Giriş / Kayıt</a>
-        </Link>
-      </nav>
-    </header>
+    <>
+      {!emailVerification && (
+        <p className={styles.verify}>
+          Lütfen email adresinizi onaylayın.{" "}
+          <span className="g--link" onClick={() => sendEmail()}>
+            Onay Emaili Gönder
+          </span>
+        </p>
+      )}
+      <header>
+        <nav className={`${styles.flex} g--mt`}>
+          <Logo />
+          <NavLinks styles={styles} />
+          {user ? (
+            <ProfileLink user={user} />
+          ) : (
+            <Link href="/giris">
+              <a className="g--btn">Giriş / Kayıt</a>
+            </Link>
+          )}
+        </nav>
+      </header>
+    </>
   );
 }

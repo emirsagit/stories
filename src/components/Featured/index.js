@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./featured.module.css";
 import Link from "next/link";
 import Stories from "./stories";
+import Button from "../Button";
 
 export default function Featured() {
   return (
@@ -21,7 +22,7 @@ export default function Featured() {
                 #1. Emir Sağıt <br />
                 <span className={styles.span}>10000 Puan</span>
               </p>
-              <button className={styles.btn}>Takip</button>
+              <Button type="secondary" size={12}>Takip</Button>
             </li>
             <li className={styles.author}>
               <p>

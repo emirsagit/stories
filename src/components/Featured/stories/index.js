@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./stories.module.css";
-import Link from "next/link"
+import Link from "next/link";
+import Button from "src/components/Button";
 
 export default function Stories() {
   return (
@@ -11,7 +12,7 @@ export default function Stories() {
           <p className={styles.title}>Story Name</p>
           <p>Ex officia elit et minim cillum minim veniam commodo elit sit cillum in. Aliquip adipisicing ex incididunt amet consectetur anim Lorem ipsum aliqua non consectetur minim nostrud. </p>
           <div className={styles.meta}>
-            <button className="g--btn">Devamı</button>
+            <Button size={12}>Devamı</Button>
             <p className={styles.author}>Emir Sağıt</p>
           </div>
         </a>

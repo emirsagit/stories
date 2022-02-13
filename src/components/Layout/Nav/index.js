@@ -5,6 +5,7 @@ import ProfileLink from "./local/Profile-link";
 import styles from "./nav.module.css";
 import { getAuth } from "firebase/auth";
 import { useAuthState, useSendEmailVerification } from "react-firebase-hooks/auth";
+import Button from "src/components/Button";
 
 export default function Nav() {
   const [sendEmailVerification, sending, err] = useSendEmailVerification(getAuth());
@@ -38,7 +39,10 @@ export default function Nav() {
             <ProfileLink user={user} />
           ) : (
             <Link href="/giris">
-              <a className="g--btn">Giriş / Kayıt</a>
+              <a>
+                <Button size={18}>GİRİŞ</Button>
+              </a>
+              {/* <a className="g--btn"></a> */}
             </Link>
           )}
         </nav>

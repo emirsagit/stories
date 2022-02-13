@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./profile.module.css";
 import Link from "next/link";
+import { getAuth } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import Router from "next/router";
 
 export default function ProfileLink({ user }) {
   console.log(user);
   const [showLinks, setShowLinks] = useState(false);
   const { photoURL, email } = user;
+
+  const logout = async (e) => {
+    e.preventDefault();
+    await signOut(getAuth());
+    Router.push("/");
+  };
 
   let links = showLinks ? (
     <ul className={`${styles.profileLinks}`}>
@@ -24,7 +33,7 @@ export default function ProfileLink({ user }) {
         </a>
       </Link>
       <Link href="/">
-        <a className={styles.link}>
+        <a className={styles.link} onClick={(e) => logout(e)}>
           <li className={styles.item}>
             <span className={styles.span}>Çıkış</span>
           </li>

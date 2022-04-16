@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
-import useErrorMessage from "src/hooks/useErrorMessage";
+import useErrorMessage from "../../src/hooks/useErrorMessage";
 import styles from "./login.module.css";
 import Link from "next/link";
-import { Layout } from "src/components";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
 import { useRouter } from "next/router";
 import GoogleSignin from "./google-signin";
-import { RedirectAfterAuth } from "src/components";
+import Layout from "../../src/components/Layout";
+import RedirectAfterAuth from "../../src/components/Helpers/RedirectAfterAuth";
+import useAuth from "../../src/hooks/useAuth";
 
 export default function Login() {
   const formFields = { email: "", password: "" };
-
   const [form, setForm] = useState(formFields);
+  const [error, setError] = useState(false);
+  const { user, isAuthenticated, signInWithEmail } = useAuth();
 
-  const router = useRouter();
+  console.log(user);
 
   const [firstErrorMessage, handleErrorMessages] = useErrorMessage(formFields);
 
-  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(getAuth());
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     router.push('/');
+  //   }
+  // }, [isAuthenticated]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -33,20 +39,20 @@ export default function Login() {
     handleErrorMessages(name);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(form.email, form.password);
+    await signInWithEmail(form.email, form.password);
   }
 
   return (
     <Layout>
       <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
         <h2 className={styles.title}>Giriş Yap 👍</h2>
-        <GoogleSignin getAuth={getAuth} />
+        <GoogleSignin />
         <input type="email" name="email" value={form.email} id="email" onChange={(e) => handleChange(e)} required className={styles.input} placeholder="isim@eposta.com" />
         <input type="password" name="password" value={form.password} id="password" onChange={(e) => handleChange(e)} className={styles.input} placeholder="parola" />
         {firstErrorMessage}
-        <button type="submit" aria-label="submit" className="g--btn" disabled={loading}>
+        <button type="submit" aria-label="submit" className="g--btn g--fs-lg">
           GİRİŞ
         </button>
         {error && <p className="g-error">Şifre ya da kullanıcı adı hatalı</p>}
@@ -56,7 +62,7 @@ export default function Login() {
           </a>
         </Link>
       </form>
-      <RedirectAfterAuth user={user} />
+      {/* <RedirectAfterAuth user={user} /> */}
     </Layout>
   );
 }

@@ -1,23 +1,20 @@
 import Link from "next/link";
-import { Logo } from "src/components";
 import NavLinks from "./local/NavLinks";
 import ProfileLink from "./local/Profile-link";
 import styles from "./nav.module.css";
-import { getAuth } from "firebase/auth";
-import { useAuthState, useSendEmailVerification } from "react-firebase-hooks/auth";
-import Button from "src/components/Button";
+import Button from "../../Button";
+import Logo from "../../Logo";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Nav() {
-  const [sendEmailVerification, sending, err] = useSendEmailVerification(getAuth());
-  const [user, loading, error] = useAuthState(getAuth());
-  let emailVerification = true;
-  if (user?.emailVerified == false) {
-    emailVerification = false;
-  }
+  // const [sendEmailVerification, sending, err] = useSendEmailVerification(getAuth());
+  const { user, isAuthenticated } = useAuth();
+
+  const emailVerification = false;
 
   async function sendEmail() {
     console.log("here");
-    await sendEmailVerification();
+    // await sendEmailVerification();
     alert("Doğrulama Maili Gönderildi.");
   }
 

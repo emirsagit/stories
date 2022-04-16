@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { useRouter } from "next/router";
 import styles from "./google-signin.module.css";
+import useAuth from "../../src/hooks/useAuth";
 
-export default function GoogleSignin({ getAuth }) {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(getAuth());
+export default function GoogleSignin() {
 
-  const router = useRouter();
+  const { signInWithGoogle } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      router.back();
-    }
-  }, [user]);
+  const error = false;
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await signInWithGoogle();
+  }
 
   return (
-    <button className={`btn ${styles.googlebtn}`} disabled={loading} onClick={() => signInWithGoogle()}>
+    <button className={`btn ${styles.googlebtn}`} onClick={handleClick}>
       {error && <p className="g-error">Doğrulama Hatası</p>}
       <Image src="/images/google.png" alt="" width={20} height={20} />
       <span className={styles.span}>Google ile giriş</span>

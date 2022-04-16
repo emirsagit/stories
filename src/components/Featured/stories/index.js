@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./stories.module.css";
 import Link from "next/link";
-import Button from "src/components/Button";
+import Button from "../../Button";
 
 export default function Stories() {
   return (

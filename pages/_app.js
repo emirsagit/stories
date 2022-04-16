@@ -1,14 +1,19 @@
-import { BgOverleyContextProvider } from "src/context/BgOverlayContext";
+import { BgOverleyContextProvider } from "../src/context/BgOverlayContext";
+import { AuthProvider } from "../src/context/FirebaseAuthContext";
+import { MessageProvider } from "../src/context/MessageContext";
 import "../styles/globals.css";
-import firebase from "../utils/firebase/firebaseClient";
 
 function MyApp({ Component, pageProps }) {
 
-    return (
-      <BgOverleyContextProvider>
-        <Component {...pageProps} />
-      </BgOverleyContextProvider>
-    );
-  }
+  return (
+    <MessageProvider>
+      <AuthProvider>
+        <BgOverleyContextProvider>
+          <Component {...pageProps} />
+        </BgOverleyContextProvider>
+      </AuthProvider>
+    </MessageProvider>
+  );
+}
 
 export default MyApp;

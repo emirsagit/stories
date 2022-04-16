@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "src/components";
+import Layout from "../../src/components/Layout";
 import styles from "./hesabim.module.css";
 import { getAuth } from "firebase/auth";
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Image from "next/image";
 
 // Create a root reference
 
@@ -42,7 +43,9 @@ export default function index() {
           <hr />
           <div className={styles.fieldWrapper}>
             <p className={styles.fieldTitle}>Profil Fotoğrafı:</p>
-            <img src={avatar} width={250} height={250} className={styles.avatar} />
+            {avatar && (
+              <Image src={avatar} width={250} height={250} className={styles.avatar} />
+            )}
             <input type="file" id="myfile" name="myfile" onChange={(e) => handleUpload(e)}></input>
           </div>
           <hr />

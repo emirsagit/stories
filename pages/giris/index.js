@@ -14,8 +14,6 @@ export default function Login() {
   const [error, setError] = useState(false);
   const { user, isAuthenticated, signInWithEmail } = useAuth();
 
-  console.log(user);
-
   const [firstErrorMessage, handleErrorMessages] = useErrorMessage(formFields);
 
   const router = useRouter();
@@ -52,6 +50,11 @@ export default function Login() {
         <input type="email" name="email" value={form.email} id="email" onChange={(e) => handleChange(e)} required className={styles.input} placeholder="isim@eposta.com" />
         <input type="password" name="password" value={form.password} id="password" onChange={(e) => handleChange(e)} className={styles.input} placeholder="parola" />
         {firstErrorMessage}
+        <Link href="/sifremi-unuttum">
+          <a className={styles.forgotPassword}>
+            <span className="g--link">Şifremi Unuttum</span>
+          </a>
+        </Link>
         <button type="submit" aria-label="submit" className="g--btn g--fs-lg">
           GİRİŞ
         </button>
@@ -62,7 +65,7 @@ export default function Login() {
           </a>
         </Link>
       </form>
-      {/* <RedirectAfterAuth user={user} /> */}
+      <RedirectAfterAuth user={user} />
     </Layout>
   );
 }

@@ -11,6 +11,13 @@
     gap: 1em;
 }
 
+.forgotPassword {
+    color: var(--text-dark);
+    font-size: .7em;
+    width: 80%;
+    text-align: right;
+}
+
 .message {
     color: var(--text-dark);
     opacity: .8;

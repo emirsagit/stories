@@ -1,8 +1,8 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { auth, db } from '../../utils/firebase';
-import { signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth';
 import useMessage from '../hooks/useMessage';
-import { getDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, setDoc, onSnapshot, where, collection, query, limit } from "firebase/firestore";
 
 const initialAuthState = {
   isAuthenticated: false,
@@ -25,6 +25,15 @@ const reducer = (state, action) => {
   return state;
 };
 
+const firebaseErrors = {
+  'auth/user-not-found': 'Kullanıcı Bulunamadı',
+  'auth/invalid-email': 'Geçersiz mail adresi',
+  'auth/wrong-password': 'Giriş bilgileri hatalı',
+  'auth/weak-password': 'Şifre en az 6 karakter olmalıdır',
+  'auth/too-many-requests': 'Çok fazla istek gönderildi, bir süre sonra tekrar deneyin',
+  'auth/email-already-in-use': 'Email adresi ile daha önce kayıt olunmuş',
+}; // list of firebase error codes to alternate error messages
+
 const AuthContext = createContext({
   ...initialAuthState,
   method: 'FirebaseAuth',
@@ -39,34 +48,38 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialAuthState);
   const { showMessage } = useMessage();
 
-  const getOrSetProfile = async (googleUser) => {
-    console.log(googleUser);
-    const { uid, displayName, email, emailVerified, photoURL } = googleUser;
+  const getOrSetProfile = async (googleUser, fullName = null) => {
+    const { uid, email, emailVerified, photoURL } = googleUser;
+    const displayName = fullName || googleUser.displayName;
     let user = { uid, displayName, email, emailVerified, photoURL, createdAt: new Date() }
-    const profileRef = await doc(db, 'profile', uid);
-    const docSnap = await getDoc(profileRef);
-    if (docSnap.exists()) {
-      onSnapshot(profileRef, (doc) => {
-        user = doc.data();
-        dispatch({
-          type: 'AUTH_STATE_CHANGED',
-          payload: {
-            isAuthenticated: true,
-            user
+    const profileRef = collection(db, 'profile');
+    const q = await query(profileRef, where("email", "==", email), limit(1));
+    onSnapshot(q, async (querySnapshot) => {
+      if (querySnapshot.size !== 0) {
+        querySnapshot.forEach((doc) => {
+          user = doc.data();
+          if (user.emailVerified !== googleUser.emailVerified) {
+            _updateEmailVerifiedCol(googleUser);
           }
+          dispatch({
+            type: 'AUTH_STATE_CHANGED',
+            payload: {
+              isAuthenticated: true,
+              user
+            }
+          });
         });
-      });
-    } else {
-      await setDoc(profileRef, user) // create the document
-      getOrSetProfile(user);
-    }
+      } else {
+        await setDoc(doc(db, "profile", user.uid), user) // create the document
+        getOrSetProfile(user);
+      }
+    })
   }
 
   useEffect(
     () =>
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log(user);
           getOrSetProfile(user);
         } else {
           dispatch({
@@ -83,10 +96,27 @@ export const AuthProvider = (props) => {
 
   const signInWithEmail = async (email, password) => {
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      const errorMessage = error.message;
-      showMessage("Giriş bilgileri hatalı", 'error');
+      showMessage(firebaseErrors[error.code] || error.message, 'error');
+    }
+  }
+
+  const sendVerifyEmailMessage = async () => {
+    try {
+      await sendEmailVerification(auth.currentUser);
+      showMessage("Doğrulama postası gönderildi. Lütfen mail adresinize girerek doğrulama yapın.", 'success');
+    } catch (error) {
+      showMessage(firebaseErrors[error.code] || error.message, 'error');
+    }
+  }
+
+  const sendPassResetMail = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMessage("Şifre sıfırlama linki e-posta adresinize gönderildi", 'success');
+    } catch (error) {
+      showMessage(firebaseErrors[error.code] || error.message, 'error');
     }
   }
 
@@ -97,28 +127,30 @@ export const AuthProvider = (props) => {
         // The signed-in user info.
         const user = result.user;
       }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        showMessage(firebaseErrors[error.code] || error.message, 'error');
       });
   };
 
-  const createUserWithEmail = async (email, password) => {
+  const createUserWithEmail = async (email, password, fullName) => {
     try {
-      createUserWithEmailAndPassword(auth, email, password);
+      let result = await createUserWithEmailAndPassword(auth, email, password);
+      await sendVerifyEmailMessage();
+      getOrSetProfile(result.user, fullName);
     } catch (error) {
-
+      showMessage(firebaseErrors[error.code] || error.message, 'error');
     }
   }
 
   const logout = () => {
     return signOut(auth);
   };
+
+  const _updateEmailVerifiedCol = async (user) => {
+    updateDoc(doc(db, "profile", user.uid), {
+      emailVerified: user.emailVerified,
+    });
+  }
+
 
   return (
     <AuthContext.Provider
@@ -128,6 +160,8 @@ export const AuthProvider = (props) => {
         createUserWithEmail,
         signInWithEmail,
         signInWithGoogle,
+        sendVerifyEmailMessage,
+        sendPassResetMail,
         logout
       }}
     >

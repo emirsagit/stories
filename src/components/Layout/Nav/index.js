@@ -8,21 +8,20 @@ import useAuth from "../../../hooks/useAuth";
 
 export default function Nav() {
   // const [sendEmailVerification, sending, err] = useSendEmailVerification(getAuth());
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, sendVerifyEmailMessage } = useAuth();
 
-  const emailVerification = false;
+  const emailVerification = user?.emailVerified;
 
   async function sendEmail() {
     console.log("here");
-    // await sendEmailVerification();
-    alert("Doğrulama Maili Gönderildi.");
+    await sendVerifyEmailMessage();
   }
 
   return (
     <>
-      {!emailVerification && (
+      {isAuthenticated && !emailVerification && (
         <p className={styles.verify}>
-          Lütfen email adresinizi onaylayın.{" "}
+          Lütfen email adresinizi doğrulayın.{" "}
           <span className="g--link" onClick={() => sendEmail()}>
             Onay Emaili Gönder
           </span>

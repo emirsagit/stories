@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "./google-signin.module.css";
 import useAuth from "../../src/hooks/useAuth";
 
-export default function GoogleSignin() {
+export default function GoogleSignin({ btnName = "Google İle Giriş Yap" }) {
 
   const { signInWithGoogle } = useAuth();
 
@@ -18,7 +18,7 @@ export default function GoogleSignin() {
     <button className={`btn ${styles.googlebtn}`} onClick={handleClick}>
       {error && <p className="g-error">Doğrulama Hatası</p>}
       <Image src="/images/google.png" alt="" width={20} height={20} />
-      <span className={styles.span}>Google ile giriş</span>
+      <span className={styles.span}>{btnName}</span>
     </button>
   );
 }

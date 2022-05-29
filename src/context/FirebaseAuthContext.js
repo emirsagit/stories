@@ -51,7 +51,7 @@ export const AuthProvider = (props) => {
   const getOrSetProfile = async (googleUser, fullName = null) => {
     const { uid, email, emailVerified, photoURL } = googleUser;
     const displayName = fullName || googleUser.displayName;
-    let user = { uid, displayName, email, emailVerified, photoURL, createdAt: new Date() }
+    let user = { uid, displayName, email, emailVerified, photoURL, createdAt: new Date(), notificationStatus: true, isDisabled: false, score: 0, phoneNumber: null, instagram: null, facebook: null, twitter: null, linkedin: null, website: null, bio: null };
     const profileRef = collection(db, 'profile');
     const q = await query(profileRef, where("email", "==", email), limit(1));
     onSnapshot(q, async (querySnapshot) => {
@@ -151,6 +151,11 @@ export const AuthProvider = (props) => {
     });
   }
 
+  const updateProfileField = async (user, fieldName, value) => {
+    updateDoc(doc(db, "profile", user.uid), {
+      [fieldName]: value,
+    });
+  }
 
   return (
     <AuthContext.Provider
@@ -162,6 +167,7 @@ export const AuthProvider = (props) => {
         signInWithGoogle,
         sendVerifyEmailMessage,
         sendPassResetMail,
+        updateProfileField,
         logout
       }}
     >

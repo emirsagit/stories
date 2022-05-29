@@ -3,6 +3,6 @@ module.exports = {
     webpack5: false,
   },
   images: {
-    domains: ['lh3.googleusercontent.com'],
+    domains: ['lh3.googleusercontent.com', "https://firebasestorage.googleapis.com"],
   }
 };

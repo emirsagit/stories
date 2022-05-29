@@ -1,73 +1,144 @@
-import React, { useState, useEffect } from "react";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css"
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../src/components/Layout";
 import styles from "./hesabim.module.css";
-import { getAuth } from "firebase/auth";
-import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import Image from "next/image";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import useAuth from "../../src/hooks/useAuth";
+import { useRouter } from "next/router";
+import { firebase } from "../../utils/firebase";
+import UpdateProfileFields from "./UpdateProfileFields";
 
 // Create a root reference
 
-export default function index() {
-  const storage = getStorage();
-  const [user, loading, error] = useAuthState(getAuth());
-  const [updateProfile, updating, err] = useUpdateProfile(getAuth());
+const Index = () => {
+  const { user, isAuthenticated, updateProfileField } = useAuth();
   const [avatar, setAvatar] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const router = useRouter();
+  const cropperRef = useRef(null);
+  const imageRef = useRef(null);
+  const storage = getStorage(firebase);
+  const [uploadImageSrc, setUploadImageSrc] = useState("");
+  const [uploadImageFile, setUploadImageFile] = useState("");
+  const [uploadPending, setUploadPending] = useState(false);
+  const rand = Math.floor(Math.random() * 1000) + 1  // for disable caching profile photo
 
   useEffect(() => {
-    const imgSrc = user ? (user.photoURL ? user.photoURL : "/images/avatar.png") : "/images/avatar.png";
-    setAvatar(imgSrc);
-    setDisplayName(user ? user.displayName : "");
-  }, [user]);
+    if (!isAuthenticated) {
+      router.push("/giris");
+    }
 
-  function handleUpload(e) {
-    e.preventDefault();
-    const file = e.target.files[0];
-    const avatarRef = ref(storage, `/avatar/${user.uid}/${file.name}`);
+    if (isAuthenticated) {
+      const avatar = user?.photoURL ? user.photoURL : "/images/avatar.png";
+      const displayName = user?.displayName ? user.displayName : "";
+      setAvatar(avatar);
+      setDisplayName(displayName);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (uploadPending) {
+      updateProfileField(user, "photoURL", avatar);
+      // console.log(response);
+      setUploadPending(false);
+    }
+  }, [avatar]);
+
+  function handleInitialUpload() {
+    let file = imageRef.current.files[0];
+    let reader = new FileReader();
+    let url = reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      setUploadImageSrc(reader.result);
+    }
+  }
+
+  function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  async function handleUpload() {
+
+    const avatarRef = ref(storage, `/avatar/${user.uid}/profile.jpg`);
+
+    var file = dataURLtoFile(uploadImageFile, 'profil.png');
+
+    await setUploadImageFile(false);
+
+    setUploadPending(true);
+
     uploadBytes(avatarRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-      console.log(snapshot);
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        console.log("File available at", downloadURL);
+      getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+        console.log(downloadURL)
+        // console.log("File available at", downloadURL);
         setAvatar(downloadURL);
-      });
+      }).catch(err => {
+        console.log(err);
+      })
     });
+  }
+
+  const onCrop = () => {
+    const imageElement = cropperRef?.current;
+    const cropper = imageElement?.cropper;
+    setUploadImageFile(cropper.getCroppedCanvas({
+      width: 300,
+      height: 300,
+      maxWidth: 300,
+      maxHeight: 300,
+      fillColor: '#fff',
+      imageSmoothingEnabled: false,
+      imageSmoothingQuality: 'high',
+    }).toDataURL());
+  };
+
+  const handleCrop = () => {
+    setUploadImageSrc("");
+    handleUpload();
   }
 
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.row}>
+          {uploadImageSrc &&
+            <div className='d-flex flex-column justify-content-center'>
+              <Cropper
+                src={uploadImageSrc}
+                style={{ height: "auto", width: "100%" }}
+                // Cropper.js options
+                aspectRatio={1 / 1}
+                guides={false}
+                crop={onCrop}
+                ref={cropperRef}
+                viewMode={1}
+              />
+              <button className='btn btn-sm btn-light' onClick={() => handleCrop()}>SEÇ</button>
+            </div>
+          }
           <h2>Genel Profil Ayarları</h2>
           <hr />
           <div className={styles.fieldWrapper}>
             <p className={styles.fieldTitle}>Profil Fotoğrafı:</p>
             {avatar && (
-              <Image src={avatar} width={250} height={250} className={styles.avatar} />
+              <img src={avatar} width={250} height={250} className={styles.avatar} />
             )}
-            <input type="file" id="myfile" name="myfile" onChange={(e) => handleUpload(e)}></input>
+            <input type="file" id="file-input" name="myfile" ref={imageRef} onChange={(e) => handleInitialUpload(e)} />
           </div>
           <hr />
-          <div className={styles.fieldWrapper}>
-            <p className={styles.fieldTitle}>İsim:</p>
-            <input type="text" value={displayName} className={styles.input} onChange={(e) => setDisplayName(e.target.value)}></input>
-          </div>
+          <UpdateProfileFields styles={styles} user={user} />
           <hr />
-          <div className={styles.fieldWrapper}>
-            <button
-              className="g--btn"
-              type="button"
-              onClick={async () => {
-                await updateProfile({ displayName, photoURL: avatar });
-                alert("Updated profile");
-              }}
-            >
-              Kaydet
-            </button>
-          </div>
         </div>
       </div>
     </Layout>
   );
 }
+
+export default Index;

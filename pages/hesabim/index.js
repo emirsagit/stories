@@ -125,16 +125,16 @@ const Index = () => {
           }
           <h2>Genel Profil Ayarları</h2>
           <hr />
-          <div className={styles.fieldWrapper}>
-            <p className={styles.fieldTitle}>Profil Fotoğrafı:</p>
-            {avatar && (
-              <img src={avatar} width={250} height={250} className={styles.avatar} />
-            )}
-            <input type="file" id="file-input" name="myfile" ref={imageRef} onChange={(e) => handleInitialUpload(e)} />
+          <div className={styles.fieldContainer}>
+            <div className={styles.fieldWrapper}>
+              <p className={styles.fieldTitle}>Profil Fotoğrafı:</p>
+              {avatar && (
+                <img src={avatar} width={250} height={250} className={styles.avatar} />
+              )}
+              <input type="file" id="file-input" name="myfile" ref={imageRef} onChange={(e) => handleInitialUpload(e)} />
+            </div>
+            <UpdateProfileFields styles={styles} user={user} />
           </div>
-          <hr />
-          <UpdateProfileFields styles={styles} user={user} />
-          <hr />
         </div>
       </div>
     </Layout>

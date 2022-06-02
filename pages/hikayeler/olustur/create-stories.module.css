@@ -45,3 +45,11 @@
   border-radius: 5px;
   width: 100%;
 }
+
+.editorWrapper {
+  background: #fff;
+}
+
+.editorContent {
+  padding: 0 10px;
+}

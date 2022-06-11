@@ -21,7 +21,7 @@ export default function DraftEditor({ content, onEditorStateChange }) {
         },
         blockType: {
           inDropdown: true,
-          options: ['Normal', 'H2', 'H3', 'H4', 'Blockquote'],
+          options: ['Normal', 'Blockquote'],
           className: undefined,
           component: undefined,
           dropdownClassName: undefined,
@@ -31,7 +31,7 @@ export default function DraftEditor({ content, onEditorStateChange }) {
           className: undefined,
           component: undefined,
           dropdownClassName: undefined,
-          options: ['unordered', 'ordered'],
+          options: ['unordered'],
         },
         emoji: {
           className: undefined,
@@ -57,11 +57,10 @@ export default function DraftEditor({ content, onEditorStateChange }) {
           options: ['undo', 'redo'],
         },
       }}
-      editorState={content}
       toolbarClassName={styles.editorWrapper}
       wrapperClassName={styles.editorWrapper}
       editorClassName={styles.editorContent}
-      onEditorStateChange={onEditorStateChange}
+      onContentStateChange={onEditorStateChange}
     />
   )
 }

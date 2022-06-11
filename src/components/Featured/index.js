@@ -4,11 +4,11 @@ import Link from "next/link";
 import Stories from "./stories";
 import Button from "../Button";
 
-export default function Featured() {
+export default function Featured({stories}) {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <Stories styles={styles} />
+        <Stories styles={styles} stories={stories}/>
         <div className={styles.authors}>
           <div className={styles.meta}>
             <h2>Yazarlar</h2>

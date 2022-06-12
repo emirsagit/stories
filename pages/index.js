@@ -27,7 +27,9 @@ export async function getServerSideProps() {
     const q = query(storiesRef, where("isApproved", "==", true), orderBy('createdAt', 'desc'), limit(10));
     const querySnapshot = await getDocs(q);
     let data = querySnapshot.docs.map((doc) => {
-      return doc.data();
+      const story = doc.data();
+      story.id = doc.id;
+      return story;
     });
     data = JSON.stringify(data);
     // Pass data to the page via props

@@ -9,8 +9,10 @@
   --text-white: #fff;
   --text-dark: #000;
   --text-body: #424242;
+  --text-light: rgb(107 114 128);
   --max-width: 1200px;
   --danger-color: #CA0B00;
+  --light-border: #ccc;
 }
 
 * {
@@ -41,6 +43,7 @@ h1 {
   font-size: 3rem;
   font-weight: 600;
   letter-spacing: 1px;
+  text-shadow: 2px 4px 3px rgb(0 0 0 / 30%);
 }
 
 h2 {
@@ -70,6 +73,12 @@ h2 {
 
 .g--fs-lg {
   font-size: 1.2rem;
+}
+
+.g--row {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1em;
 }
 
 button:disabled,
@@ -169,5 +178,11 @@ button, a {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 830px) {
+  .main-container {
+      margin-bottom: 4rem;
   }
 }

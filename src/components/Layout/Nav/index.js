@@ -13,7 +13,6 @@ export default function Nav() {
   const emailVerification = user?.emailVerified;
 
   async function sendEmail() {
-    console.log("here");
     await sendVerifyEmailMessage();
   }
 

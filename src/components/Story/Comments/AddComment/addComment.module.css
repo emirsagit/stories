@@ -1,0 +1,27 @@
+.container {
+  background-color: var(--text-white);
+  padding: 0 1em 1em;
+  margin: 1.5em auto 0;
+  color: #2a2a2a;
+  font-size: 1.1em;
+  margin-top: 0;
+ 
+}
+
+.field {
+  border: 1px solid var(--light-border);
+  padding: 1em;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #2a2a2a;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  background-color: var(--main-text-color);
+}

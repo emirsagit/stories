@@ -1,0 +1,32 @@
+.container {
+  background-color: var(--second-bg-color);
+  color: var(--text-white);
+  padding: 3em 0;
+  margin-bottom: 1em;
+}
+
+.container h1 {
+  font-size: 2.3rem;
+  margin: 0;
+  color: #fff;
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+
+.container p {
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  margin-top: .5em;
+  margin-bottom: 0;
+}
+
+.row {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.link {
+  text-decoration: underline;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0 3px;
+}

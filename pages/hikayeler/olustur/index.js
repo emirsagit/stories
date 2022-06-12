@@ -52,7 +52,7 @@ export default function Olustur() {
           photoURL: user.photoURL
         },
         comments: [],
-        scores: []
+        likes: []
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {

@@ -4,7 +4,7 @@ import Select from 'react-select'
 import useCategory from '../../../src/hooks/useCategory';
 import styles from "./create-stories.module.css";
 import DraftEditor from './DraftEditor';
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, collection, doc } from "firebase/firestore";
 import { db } from '../../../utils/firebase';
 import useAuth from '../../../src/hooks/useAuth';
 import slugify from 'react-slugify';
@@ -38,7 +38,10 @@ export default function Olustur() {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const docRef = await addDoc(collection(db, "stories"), {
+      const docRef = doc(collection(db, "stories"));
+
+      await setDoc(docRef, {
+        id: docRef.id,
         title: form.title,
         slug: slugify(form.title),
         content: form.content,

@@ -1,7 +1,7 @@
 import React from 'react'
 import InterweaveContent from '../../InterweaveContent.js';
 import styles from "./body.module.css";
-import { FaTwitter, FaInstagramSquare, FaFacebookF } from "react-icons/fa";
+import { FaTwitter, FaFacebookF } from "react-icons/fa";
 import { useRouter } from 'next/router'
 import Author from '../../Author/index.js';
 

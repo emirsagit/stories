@@ -160,6 +160,14 @@ button, a {
   cursor: pointer;
 }
 
+.display--none {
+  display: none !important;
+}
+
+.overflow--hidden {
+  overflow-y: hidden;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
   0% {

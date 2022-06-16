@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+  gap: .5em;
+  align-items: center;
+  padding: 1em;
+}
+
+.link {
+  color: var(--text-dark);
+  letter-spacing: 1px;
+  font-weight: 400;
+  font-size: 1.4em;
+}

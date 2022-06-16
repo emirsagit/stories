@@ -54,7 +54,7 @@ const Comments = ({ story }) => {
     <>
       <AddComment story={story} addNewCommentToDom={addNewCommentToDom} />
       {comments.map((comment) => (
-        <Comment />
+        <Comment comment={comment} />
       ))}
     </>
   )

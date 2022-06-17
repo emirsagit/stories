@@ -69,6 +69,7 @@ h2 {
 .g--btn:hover {
   background-color: var(--second-bg-color);
   color: var(--text-white);
+  box-shadow: var(--second-bg-color) 0px 13px 27px -5px, var(--second-bg-color) 0px 8px 16px -8px;
 }
 
 .g--fs-lg {

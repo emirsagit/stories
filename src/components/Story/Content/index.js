@@ -4,12 +4,12 @@ import LikesComments from '../../LikesComments';
 import Body from '../Body';
 import styles from "./storyContent.module.css";
 
-const Content = ({ story }) => {
+const Content = ({ story, handleAddOrRemoveLikes, isLiked }) => {
   return (
     <>
       <Author user={story.user} />
-      <LikesComments story={story} />
-      <Body story={story}/>
+      <LikesComments story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked}/>
+      <Body story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked}/>
     </>
   )
 }

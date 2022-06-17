@@ -4,8 +4,9 @@ import styles from "./body.module.css";
 import { FaTwitter, FaFacebookF } from "react-icons/fa";
 import { useRouter } from 'next/router'
 import Author from '../../Author/index.js';
+import LikesComments from '../../LikesComments/index.js';
 
-const Body = ({ story }) => {
+const Body = ({ story, handleAddOrRemoveLikes, isLiked }) => {
   const { asPath } = useRouter();
   const link = process.env.NEXT_PUBLIC_BASE_URL + asPath;
 
@@ -27,11 +28,14 @@ const Body = ({ story }) => {
         </a>
       </div>
       <div className={styles.footer}>
-        <button>Report</button>
-        <p>{new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}</p>
+        <div className={styles.buttons}>
+          <LikesComments fontSize={{ fontSize: "21px" }} story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked} />
+          <button className={styles.report}>Report</button>
+        </div>
+        <time datetime={new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}>{new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}</time>
       </div>
       <div className={styles.authorContainer}>
-        <Author user={story.user} style={{ justifyContent: "space-between" }} titleAlign={{ marginRight: "auto" }}/>
+        <Author user={story.user} style={{ justifyContent: "space-between" }} titleAlign={{ marginRight: "auto" }} />
       </div>
     </div>
   )

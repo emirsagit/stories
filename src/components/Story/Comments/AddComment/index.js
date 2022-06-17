@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Button from '../../../Button';
 import styles from "./addComment.module.css";
-import LikesComments from "../../../LikesComments";
 import useAuth from '../../../../hooks/useAuth';
 import { db } from '../../../../../utils/firebase';
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
@@ -25,8 +24,6 @@ const AddComment = ({ story ,addNewCommentToDom }) => {
         photoURL: user.photoURL
       }
     }
-
-    console.log(comment);
     // Set the "capital" field of the city 'DC'
     // Atomically add a new region to the "regions" array field.
     await updateDoc(storyRef, {
@@ -41,7 +38,6 @@ const AddComment = ({ story ,addNewCommentToDom }) => {
       <div className={styles.field}>
         <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} className={styles.input} rows="8" cols="50" placeholder='Yazı ile ilgili yorum yap' />
         <div>
-          <LikesComments story={story} />
           <Button onClick={onSubmitHandler} className={styles.button} style={{ marginLeft: "auto" }}>YORUMU KAYDET</Button>
         </div>
       </div>

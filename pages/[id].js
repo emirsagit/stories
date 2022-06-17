@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { db } from "../utils/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import styles from "./story.module.css";
 import Head from "next/head";
 import { Layout } from '../src/components';
 import Title from '../src/components/Story/Title';
 import Content from '../src/components/Story/Content';
 import Comments from '../src/components/Story/Comments';
+import useAuth from '../src/hooks/useAuth';
+import LikesComments from '../src/components/LikesComments';
 
 const getData = async (id) => {
   const storiesRef = doc(db, "stories", id);
@@ -19,7 +21,30 @@ const getData = async (id) => {
 }
 
 export default function Story({ data }) {
+
+  const { isAuthenticated, user } = useAuth();
+  
   const [story, setStory] = useState(JSON.parse(data));
+
+  const isLiked = isAuthenticated ? story?.likes?.includes(user?.uid) : false;
+
+  const handleAddOrRemoveLikes = async () => {
+    const storyRef = doc(db, "stories", story.id);
+
+    if (isLiked) {
+      await updateDoc(storyRef, {
+        likes: arrayRemove(user.uid)
+      });
+      const newLikes = story.likes.filter(id => id !== user.uid);
+      setStory({ ...story, likes: newLikes });
+    } else {
+      await updateDoc(storyRef, {
+        likes: arrayUnion(user.uid)
+      });
+      const newLikes = [...story.likes, user.uid];
+      setStory({ ...story, likes: newLikes });
+    }
+  }
 
   return (
     <>
@@ -31,7 +56,7 @@ export default function Story({ data }) {
       <Layout>
         <div className={styles.container}>
           <Title story={story} />
-          <Content story={story} />
+          <Content story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked}/>
           <Comments story={story} />
         </div>
       </Layout>

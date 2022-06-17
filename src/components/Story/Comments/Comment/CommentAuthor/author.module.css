@@ -2,12 +2,17 @@
   display: flex;
   gap: .5em;
   align-items: center;
-  padding: 1em;
+  padding: 0;
 }
 
 .link {
   color: var(--text-dark);
   letter-spacing: 1px;
   font-weight: 400;
-  font-size: 1.4em;
+  font-size: .9em;
+}
+
+.row time {
+  font-size: .9em;
+  color: var(--text-light);
 }

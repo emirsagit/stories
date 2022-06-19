@@ -11,6 +11,9 @@ const AddComment = ({ story ,addNewCommentToDom }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    if(newComment.trim().length < 3) return;
+
     const storyRef = doc(db, "stories", story.id);
 
     const comment = {

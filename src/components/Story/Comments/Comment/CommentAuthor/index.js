@@ -5,8 +5,7 @@ import Link from "next/link";
 
 export default function CommentAuthor({ comment, style, titleAlign }) {
   const time = comment.createdAt.seconds ? new Date(comment.createdAt.seconds * 1000).toLocaleDateString("tr") : new Date(comment.createdAt).toLocaleDateString("tr");
-
-  console.log(comment);
+  
   const { user, createdAt } = comment;
   return (
     <div className={`g--row ${styles.row}`} style={style}>
@@ -18,7 +17,7 @@ export default function CommentAuthor({ comment, style, titleAlign }) {
           <span>{user.name}</span>
         </a>
       </Link>
-      <time datetime={time}>{time}</time>
+      <time dateTime={time}>{time}</time>
     </div>
   );
 }

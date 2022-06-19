@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./login.module.css";
 import Link from "next/link";
 
@@ -6,6 +6,8 @@ import GoogleSignin from "../giris/google-signin";
 import Layout from "../../src/components/Layout";
 import useErrorMessage from "../../src/hooks/useErrorMessage";
 import useAuth from "../../src/hooks/useAuth";
+import useProfile from "../../src/hooks/useProfile";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const formFields = { email: "", password: "", fullName: "" };
@@ -13,6 +15,22 @@ export default function Login() {
   const [form, setForm] = useState(formFields);
   const { createUserWithEmail } = useAuth();
   const [firstErrorMessage, handleErrorMessages] = useErrorMessage(formFields);
+  const { isAuthenticated, user } = useAuth();
+  const { updateProfile } = useProfile();
+  const router = useRouter();
+
+  useEffect(() => {
+    const updateFullName = async () => {
+      if (form.fullName) {
+        await updateProfile("displayName", form.fullName);
+      }
+    }
+    if (isAuthenticated) {
+      updateFullName();
+      router.push('/');
+    }
+  }, [user])
+
 
   function handleChange(e) {
     const { name, value } = e.target;

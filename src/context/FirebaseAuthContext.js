@@ -48,9 +48,9 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialAuthState);
   const { showMessage } = useMessage();
 
-  const getOrSetProfile = async (googleUser, fullName = null) => {
+  const getOrSetProfile = async (googleUser) => {
     const { uid, email, emailVerified, photoURL } = googleUser;
-    const displayName = fullName || googleUser.displayName;
+    const displayName = googleUser.displayName;
     let user = { uid, displayName, email, emailVerified, photoURL, createdAt: new Date(), notificationStatus: true, isDisabled: false, score: 0, phoneNumber: null, instagram: null, facebook: null, twitter: null, linkedin: null, website: null, bio: null };
     const profileRef = collection(db, 'profile');
     const q = await query(profileRef, where("email", "==", email), limit(1));
@@ -71,7 +71,12 @@ export const AuthProvider = (props) => {
         });
       } else {
         await setDoc(doc(db, "profile", user.uid), user) // create the document
-        getOrSetProfile(user);
+        const followRef = doc(db, "follow", user.uid);
+        await setDoc(followRef, {
+          follows: [],
+          followers: [],
+        });
+        await getOrSetProfile(user);
       }
     })
   }
@@ -135,7 +140,6 @@ export const AuthProvider = (props) => {
     try {
       let result = await createUserWithEmailAndPassword(auth, email, password);
       await sendVerifyEmailMessage();
-      getOrSetProfile(result.user, fullName);
     } catch (error) {
       showMessage(firebaseErrors[error.code] || error.message, 'error');
     }

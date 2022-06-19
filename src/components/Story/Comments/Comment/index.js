@@ -3,7 +3,6 @@ import styles from "./comment.module.css";
 import CommentAuthor from './CommentAuthor';
 
 const Comment = ({ comment }) => {
-  console.log(comment);
   return (
     <div className={`g--row ${styles.container}`}>
       <div className={styles.field}>

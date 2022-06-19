@@ -14,13 +14,13 @@ const Body = ({ story, handleAddOrRemoveLikes, isLiked }) => {
     <div className={`g--row ${styles.container}`}>
       <InterweaveContent content={story.content} />
       <div className={styles.share}>
-        <a class="btn-floating btn btn-tw" type="button" role="button" title="Share on twitter"
+        <a className="btn-floating btn btn-tw" type="button" role="button" title="Share on twitter"
           href={`https://twitter.com/intent/tweet?url=${link}`} target="_blank"
           rel="noopener">
           <FaTwitter />
           <p>Twitter</p>
         </a>
-        <a class="btn-floating btn btn-tw" type="button" role="button" title="Share on facebook"
+        <a className="btn-floating btn btn-tw" type="button" role="button" title="Share on facebook"
           href={`https://www.facebook.com/sharer/sharer.php?u=${link}`} target="_blank"
           rel="noopener">
           <FaFacebookF />
@@ -32,7 +32,7 @@ const Body = ({ story, handleAddOrRemoveLikes, isLiked }) => {
           <LikesComments fontSize={{ fontSize: "21px" }} story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked} />
           <button className={styles.report}>Report</button>
         </div>
-        <time datetime={new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}>{new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}</time>
+        <time dateTime={new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}>{new Date(story.createdAt.seconds * 1000).toLocaleDateString("tr")}</time>
       </div>
       <div className={styles.authorContainer}>
         <Author user={story.user} style={{ justifyContent: "space-between" }} titleAlign={{ marginRight: "auto" }} />

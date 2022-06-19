@@ -40,7 +40,6 @@ const Index = () => {
   useEffect(() => {
     if (uploadPending) {
       updateProfileField(user, "photoURL", avatar);
-      // console.log(response);
       setUploadPending(false);
     }
   }, [avatar]);
@@ -76,7 +75,6 @@ const Index = () => {
 
     uploadBytes(avatarRef, file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-        console.log(downloadURL)
         // console.log("File available at", downloadURL);
         setAvatar(downloadURL);
       }).catch(err => {

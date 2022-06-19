@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./author.module.css";
 import Link from "next/link";
 import Button from "../Button";
+import Follow from "../Button/Follow";
 
 export default function Author({ user, style, titleAlign }) {
   return (
@@ -15,7 +16,7 @@ export default function Author({ user, style, titleAlign }) {
           <span>{user.name}</span>
         </a>
       </Link>
-      <Button type="primary-outline" size={12}>TAKİP</Button>
+      <Follow contentUser={user} />
     </div>
   );
 }

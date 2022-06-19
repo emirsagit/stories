@@ -4,57 +4,6 @@
     padding: 3rem 0;
 }
 
-.authors {
-    padding: 0 5%;
-    width: 95%;
-    margin: 0 auto;
-    margin-top: 3em;
-}
-
-.meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.link {
-    color: var(--second-bg-color);
-    letter-spacing: 1px;
-    text-decoration: underline;
-}
-
-.author {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.author p {
-    margin: 0;
-}
-
-.btn {
-    background-color: var(--second-bg-color);
-    color: var(--text-white);
-    border: none;
-    padding: 5px 15px;
-    border-radius: 4px;
-    letter-spacing: 1px;
-}
-
-.list {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    margin-top: 1.5em;
-}
-
-.span {
-    position: block;
-    opacity: .7;
-    margin-left: 15px;
-}
-
 @media only screen and (min-width: 830px) {
     .row {
         max-width: var(--max-width);
@@ -63,10 +12,4 @@
         justify-content: space-between;
         margin: 0 auto;
     }
-
-    .authors {
-        margin-top: 0;
-        max-width: 340px;
-    }
-
 }

@@ -1,32 +1,16 @@
 import React from 'react'
 import InterweaveContent from '../../InterweaveContent.js';
-import styles from "./body.module.css";
-import { FaTwitter, FaFacebookF } from "react-icons/fa";
-import { useRouter } from 'next/router'
-import Author from '../../Author/index.js';
 import LikesComments from '../../LikesComments/index.js';
+import styles from "./body.module.css";
+import SocialShare from './SocialShare.js';
+import Author from '../../Author';
 
 const Body = ({ story, handleAddOrRemoveLikes, isLiked }) => {
-  const { asPath } = useRouter();
-  const link = process.env.NEXT_PUBLIC_BASE_URL + asPath;
 
   return (
     <div className={`g--row ${styles.container}`}>
       <InterweaveContent content={story.content} />
-      <div className={styles.share}>
-        <a className="btn-floating btn btn-tw" type="button" role="button" title="Share on twitter"
-          href={`https://twitter.com/intent/tweet?url=${link}`} target="_blank"
-          rel="noopener">
-          <FaTwitter />
-          <p>Twitter</p>
-        </a>
-        <a className="btn-floating btn btn-tw" type="button" role="button" title="Share on facebook"
-          href={`https://www.facebook.com/sharer/sharer.php?u=${link}`} target="_blank"
-          rel="noopener">
-          <FaFacebookF />
-          <p>Facebook</p>
-        </a>
-      </div>
+      <SocialShare />
       <div className={styles.footer}>
         <div className={styles.buttons}>
           <LikesComments fontSize={{ fontSize: "21px" }} story={story} handleAddOrRemoveLikes={handleAddOrRemoveLikes} isLiked={isLiked} />

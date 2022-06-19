@@ -11,6 +11,6 @@ export default function InterweaveContent({ content, sliceSize = null }) {
   }
 
   return (
-    <Interweave content={convertDraftToHtml(content)} />
+    <Interweave tagName="div" content={convertDraftToHtml(content)} />
   )
 }

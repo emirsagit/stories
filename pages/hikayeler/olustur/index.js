@@ -50,7 +50,7 @@ export default function Olustur() {
         isApproved: true,
         userId: user.uid,
         user: {
-          name: user.displayName,
+          displayName: user.displayName,
           uid: user.uid,
           photoURL: user.photoURL
         },

@@ -4,23 +4,10 @@ import Button from "..";
 import useFollow from "../../../hooks/useFollow";
 
 export default function Follow({ contentUser }) {
-  const { authUserFollows, contentUserFollows, saveToFollow, removeFollow, isContentUserFollowed } = useFollow(contentUser);
+  const { handleFollow, isContentUserFollowed } = useFollow();
 
-  const ButtonComponent = () => {
-    if (isContentUserFollowed) {
-      return (
-        <Button type="primary" size={12} handleClick={() => removeFollow()}>TAKİPTE</Button>
-      );
-    } else {
-      return (
-        <Button type="primary-outline" size={12} handleClick={() => handleFollow()}>TAKİP</Button>
-      );
-    }
-  }
+  const buttonType = isContentUserFollowed(contentUser.uid) ? "primary" : "primary-outline";
+  const buttonName = isContentUserFollowed(contentUser.uid) ? "TAKİPTE" : "TAKİP ET";
 
-  const handleFollow = async () => {
-    await saveToFollow(contentUser);
-  }
-
-  return <ButtonComponent />
+  return <Button type={buttonType} size={12} handleClick={() => handleFollow(contentUser)}>{buttonName}</Button>;
 }

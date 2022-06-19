@@ -13,6 +13,12 @@
     background-color: #fff;
 }
 
+.storyHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .authors {
     margin: 0 5%;
 }
@@ -21,6 +27,18 @@
     font-weight: 600;
     letter-spacing: 1px;
     font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.authorName {
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+.image {
+    border-radius: 11.2px;
+    margin-right: 7px;
 }
 
 .author {
@@ -36,6 +54,6 @@
 
 @media only screen and (min-width: 830px) {
     .stories {
-        max-width: 550px;
+        max-width: 650px;
     }
 }

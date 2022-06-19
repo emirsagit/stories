@@ -61,7 +61,7 @@ export default function ProfileLink({ user }) {
   return (
     <div className={styles.container}>
       <button className={`${styles.accountBtn} g--z-3 g--relative`} onClick={() => displayLinks()}>
-        {photoURL ? <img src={photoURL} key={photoURL} width={25} height={25} className={styles.avatar} /> : <span className={styles.profilePhoto}>{email.charAt(0)}</span>}
+        {photoURL ? <img src={photoURL} key={photoURL} referrerPolicy="no-referrer" width={25} height={25} className={styles.avatar} /> : <span className={styles.profilePhoto}>{email.charAt(0)}</span>}
         <span>Hesabım</span>
       </button>
       <BgOverlay active={showLinks} onClick={() => setShowLinks(false)} />

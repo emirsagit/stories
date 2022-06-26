@@ -13,7 +13,7 @@ export default function Home({ data }) {
       </Head>
       <Layout>
         <Title />
-        <Featured stories={JSON.parse(data)}/>
+        <Featured stories={JSON.parse(data)} />
       </Layout>
     </div>
   );

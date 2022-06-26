@@ -4,7 +4,6 @@ import Link from "next/link";
 import Router from "next/router";
 import BgOverlay from "../../../BgOverlay";
 import useAuth from "../../../../../hooks/useAuth";
-import Image from "next/image";
 
 export default function ProfileLink({ user }) {
   const [showLinks, setShowLinks] = useState(false);

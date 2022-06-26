@@ -3,7 +3,8 @@ import "cropperjs/dist/cropper.css"
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../src/components/Layout";
 import styles from "./hesabim.module.css";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../utils/firebase";
 import useAuth from "../../src/hooks/useAuth";
 import { useRouter } from "next/router";
 import { firebase } from "../../utils/firebase";
@@ -18,11 +19,9 @@ const Index = () => {
   const router = useRouter();
   const cropperRef = useRef(null);
   const imageRef = useRef(null);
-  const storage = getStorage(firebase);
   const [uploadImageSrc, setUploadImageSrc] = useState("");
   const [uploadImageFile, setUploadImageFile] = useState("");
   const [uploadPending, setUploadPending] = useState(false);
-  const rand = Math.floor(Math.random() * 1000) + 1  // for disable caching profile photo
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -47,7 +46,7 @@ const Index = () => {
   function handleInitialUpload() {
     let file = imageRef.current.files[0];
     let reader = new FileReader();
-    let url = reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       setUploadImageSrc(reader.result);

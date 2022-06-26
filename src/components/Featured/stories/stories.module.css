@@ -39,6 +39,7 @@
 .image {
     border-radius: 11.2px;
     margin-right: 7px;
+    display: inline-block;
 }
 
 .author {

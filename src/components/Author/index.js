@@ -12,7 +12,7 @@ export default function Author({ user, style, titleAlign }) {
       <div style={{ borderRadius: '20px', overflow: 'hidden', width: 40, height: 40 }}>
         <Image className={styles.avatar} layout="fixed" width={40} height={40} src={user.photoURL} alt={user.displayName} />
       </div>
-      <Link href={`/yazarlar/${user.id}`}>
+      <Link href={`/yazarlar/${user.uid}`}>
         <a className={styles.link} style={titleAlign}>
           <span>{user.displayName}</span>
         </a>

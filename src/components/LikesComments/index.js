@@ -17,10 +17,10 @@ export default function LikesComments({ story, handleAddOrRemoveLikes, isLiked, 
         }
         {likedSum > 0 ? <>{likedSum} <span className="gl-d-sm-none">beğeni</span></> : <span className="gl-d-sm-none">Beğen</span>}
       </button>
-      <a href="#comments" className={styles.wrapper} style={fontSize}>
+      <p className={styles.wrapper} style={fontSize}>
         <HiOutlineChatAlt />
         {commentsSum > 0 ? <>{commentsSum}<span className="gl-d-sm-none"> yorum</span></> : <span className="gl-d-sm-none">Yorum Yap</span>}
-      </a>
+      </p>
     </div>
   );
 }

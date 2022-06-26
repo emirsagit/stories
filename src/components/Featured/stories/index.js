@@ -17,13 +17,13 @@ export default function Stories({ stories }) {
           <Link href={`/${story.id}`} key={index}>
             <a className={styles.story}>
               <div className={styles.storyHeaderContainer}>
-                <p className={styles.title}> 
-              <img src={story.user.photoURL} loading="lazy" className={styles.image} width={22.4} height={22.4}/>
-                {story.title} by <span className={styles.authorName}>{story.user.displayName}</span></p>
+                <p className={styles.title}>
+                  <img src={story.user.photoURL} loading="lazy" className={styles.image} width={22.4} height={22.4} />
+                  {story.title} by <span className={styles.authorName}>{story.user.displayName}</span></p>
               </div>
               <InterweaveContent content={story.content} sliceSize={400} />
               <div className={styles.meta}>
-                <LikesComments story={story} style={{  marginRight: "auto", width: "100%", paddingLeft: 0 }} />
+                <LikesComments story={story} style={{ marginRight: "auto", width: "100%", paddingLeft: 0 }} />
                 <Button size={12}>Devamı</Button>
               </div>
             </a>

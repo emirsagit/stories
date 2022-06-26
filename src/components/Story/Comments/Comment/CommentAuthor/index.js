@@ -12,7 +12,7 @@ export default function CommentAuthor({ comment, style, titleAlign }) {
       <div style={{ borderRadius: '20px', overflow: 'hidden', width: 20, height: 20 }}>
         <Image className={styles.avatar} layout="fixed" width={20} height={20} src={user.photoURL} alt={user.name} />
       </div>
-      <Link href={`/yazarlar/${user.id}`}>
+      <Link href={`/yazarlar/${user.uid}`}>
         <a className={styles.link} style={titleAlign}>
           <span>{user.name}</span>
         </a>

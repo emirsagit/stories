@@ -23,7 +23,7 @@ const AddComment = ({ story ,addNewCommentToDom }) => {
       isValid: true,
       user: {
         id: user.uid,
-        name: user.displayName,
+        displayName: user.displayName,
         photoURL: user.photoURL
       }
     }

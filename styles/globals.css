@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+/* debug-twcss/styles/global.css */
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
 
 :root {
-  --main-bg-color: #222831;
+  --main-bg-color: #18181b;
   --second-bg-color: #2d4059;
   --main-text-color: #eeeeee;
   --second-text-color: #ff5722;

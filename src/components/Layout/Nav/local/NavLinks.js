@@ -12,12 +12,12 @@ export default function NavLinks({styles}) {
           <span className={styles.span}>Anasayfa</span>
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/mesajlar">
         <a className={styles.link}>
           <svg xmlns="http://www.w3.org/2000/svg" className={styles.icon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
           </svg>
-          <span className={styles.span}>Hikayeler</span>
+          <span className={styles.span}>ABC Girdi</span>
         </a>
       </Link>
       <Link href="/hikayeler/olustur">

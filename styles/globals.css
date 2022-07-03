@@ -86,6 +86,10 @@ h2 {
   padding: 0 1em;
 }
 
+.g--h-screen {
+  min-height: calc(100vh - 300px);
+}
+
 button:disabled,
 button[disabled] {
   opacity: .8;

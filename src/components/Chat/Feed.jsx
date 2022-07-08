@@ -1,8 +1,7 @@
 import { SparklesIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import Input from "./Input";
-import { onSnapshot, collection, query, orderBy, limit, where, getDocs } from "@firebase/firestore";
-// import { db } from "../firebase";
+import { onSnapshot, collection, query, orderBy, limit, where, doc, updateDoc, arrayUnion } from "@firebase/firestore";
 import DirectMessage from "./DirectMessage";
 import { db } from "../../../utils/firebase";
 import NewMessage from "./NewMessage";
@@ -12,32 +11,74 @@ import useAuth from "../../hooks/useAuth";
 const Feed = ({ messageUser, setMessageUser }) => {
   const [dm, setDm] = useState("");
   const [messages, setMessages] = useState("");
+  const [lastMessages, setLastMessages] = useState("");
   const [selectUserIsOpen, setSelectUserIsOpen] = useState(false);
+  const [lastDocumentFb, setLastDocumentFb] = useState("");
   const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  let unSubscribeForMessages = () => { }
+  let unSubscribeForDms = () => { }
+
+  useEffect(() => {
+    return () => {
+      unSubscribeForMessages();
+      unSubscribeForDms();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (lastMessages) {
+      if (messages) {
+        const existingMessages = messages.messages.filter(message => {
+          const isInLastMessages = lastMessages.messages.some(lastMessage => {
+            return lastMessage.createdAt.nanoseconds === message.createdAt.nanoseconds;
+          })
+          return !isInLastMessages;
+        });
+        setMessages({ ...lastMessages, messages: [...existingMessages, ...lastMessages.messages] });
+      } else {
+        setMessages(lastMessages);
+      }
+      //update firestore lastMessages
+      if (! lastMessages.isReadedBy.includes[user.uid]) {
+        const messagesRef = doc(db, 'dm', dm.id, 'messages', lastMessages.id);
+        updateDoc(messagesRef, {
+          isReadedBy: arrayUnion(user.uid)
+        });
+      }
+    }
+  }, [lastMessages])
+
 
   useEffect(() => {
     const getMessages = async () => {
       const messagesRef = collection(db, "dm", dm.id, "messages");
-      onSnapshot(
+      unSubscribeForMessages = onSnapshot(
         query(messagesRef, orderBy("timestamp", "desc"), limit(1)),
         (snapshot) => {
-          setMessages(snapshot.docs[0].data());
+          if (snapshot.docs[1]) {
+            setLastMessages({ ...snapshot.docs[0].data(), messages: [...snapshot.docs[0].data().messages] });
+            setLastDocumentFb(snapshot.docs[1]);
+          } else {
+            setLastMessages(snapshot.docs[0].data());
+            setLastDocumentFb(snapshot.docs[0]);
+          }
         }
       );
     }
-    if (dm) {
+    if (!loading && dm && !messages) {
       getMessages();
     }
-  }, [dm])
+  }, [dm, loading]);
 
   useEffect(() => {
     const getDms = async () => {
       const users = { [messageUser.uid]: messageUser.uid, [user.uid]: user.uid };
       const dmRef = collection(db, "dm");
-      onSnapshot(
+      unSubscribeForDms = onSnapshot(
         query(dmRef, where("users", "==", users), orderBy("timestamp", "desc"), limit(1)),
         (snapshot) => {
-          console.log(snapshot.docs);
           setDm(snapshot.docs[0]);
         }
       );
@@ -45,8 +86,7 @@ const Feed = ({ messageUser, setMessageUser }) => {
     if (messageUser && user) {
       getDms();
     }
-  }, [messageUser])
-
+  }, [messageUser]);
 
   const feedComponent =
     messageUser ?
@@ -54,7 +94,7 @@ const Feed = ({ messageUser, setMessageUser }) => {
         {messages?.messages?.length > 0 && messages.messages.map((message) => (
           <DirectMessage key={message.id} id={message.id} message={message} dm={dm.data()} />
         ))}
-        <Input removeSelectedUser={() => setMessageUser(null)} messageUser={messageUser} />
+        <Input removeSelectedUser={() => setMessageUser(null)} messageUser={messageUser} messages={messages} lastMessages={lastMessages} dm={dm} loading={loading} setLoading={setLoading} />
       </>
       :
       selectUserIsOpen ?
